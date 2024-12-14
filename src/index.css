@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn {
+    @apply px-3 border rounded-md bg-black text-white h-9;
+  }
+  .btn-md {
+    @apply px-2.5 border rounded-md bg-black text-white h-8 text-sm;
+  }
+  .btn-sm {
+    @apply px-2 border rounded-md bg-black text-white h-7 text-xs;
+  }
+
+  .input {
+    @apply px-3 bg-white rounded-md focus:outline-none;
+  }
+}
