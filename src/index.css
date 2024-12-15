@@ -16,4 +16,8 @@
   .input {
     @apply px-3 bg-white rounded-md focus:outline-none;
   }
+
+  .card {
+    @apply border rounded-lg p-6 space-y-4;
+  }
 }

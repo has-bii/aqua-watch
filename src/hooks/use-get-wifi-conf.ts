@@ -4,6 +4,7 @@ import { TNetwork } from "../types/network";
 const useGetWifiConf = () =>
   useQuery({
     queryKey: ["wifi-conf"],
+    retry: false,
     queryFn: async () => {
       try {
         const res = (await fetch(

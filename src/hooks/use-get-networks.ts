@@ -4,6 +4,7 @@ import { TNetwork } from "../types/network";
 const useGetNetworks = () =>
   useQuery({
     queryKey: ["networks"],
+    retry: false,
     queryFn: async () => {
       try {
         const res = (await fetch(

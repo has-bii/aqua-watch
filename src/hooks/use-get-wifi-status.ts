@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 const useGetWifiStatus = () =>
   useQuery({
     queryKey: ["wifi-status"],
+    retry: false,
     queryFn: async () => {
       try {
         const res = (await fetch(
