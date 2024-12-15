@@ -1,19 +1,25 @@
-import React from "react";
 import { useGetWifiStatus } from "../hooks/use-get-wifi-status";
-import { WifiHighIcon, WifiIcon, WifiOffIcon } from "lucide-react";
+import { LoaderIcon, WifiIcon, WifiOffIcon } from "lucide-react";
 
 export default function WifiStatus() {
   const { data, isLoading, refetch, isRefetching } = useGetWifiStatus();
 
+  if (isLoading || isRefetching)
+    return <LoaderIcon size={20} className="animate-spin" />;
+
   if (data !== undefined)
     return (
-      <div className="flex gap-2 items-center">
-        {data.message === "Connected" ? (
+      <div
+        className="flex gap-2 items-center"
+        role="button"
+        onClick={() => refetch()}
+      >
+        {data === "Connected" ? (
           <WifiIcon size={20} />
         ) : (
           <WifiOffIcon size={20} />
         )}
-        <p className="text-sm">{data.message}</p>
+        <p className="text-sm hidden lg:block">{data}</p>
       </div>
     );
 }

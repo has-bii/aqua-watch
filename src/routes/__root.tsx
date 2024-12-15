@@ -9,7 +9,6 @@ export const Route = createRootRoute({
   component: () => (
     <>
       <QueryClientProvider client={queryClient}>
-        {/* The rest of your application */}
         <Layout>
           <Outlet />
         </Layout>

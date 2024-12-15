@@ -1,5 +1,4 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
-import Network from "../components/network/network";
 
 export const Route = createLazyFileRoute("/")({
   component: Index,
@@ -7,12 +6,8 @@ export const Route = createLazyFileRoute("/")({
 
 function Index() {
   return (
-    <>
-      {/* Header */}
-      <h1 className="text-2xl font-bold text-center mb-4">Getting started</h1>
-
-      {/* Card */}
-      <Network />
-    </>
+    <div className="w-full flex items-center justify-center px-8">
+      <h1 className="text-3xl font-bold text-black">Aqua Watch</h1>
+    </div>
   );
 }

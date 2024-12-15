@@ -13,6 +13,8 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as WifiIndexImport } from './routes/wifi/index'
+import { Route as GettingStartedIndexImport } from './routes/getting-started/index'
 
 // Create Virtual Routes
 
@@ -26,6 +28,18 @@ const IndexLazyRoute = IndexLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
 
+const WifiIndexRoute = WifiIndexImport.update({
+  id: '/wifi/',
+  path: '/wifi/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const GettingStartedIndexRoute = GettingStartedIndexImport.update({
+  id: '/getting-started/',
+  path: '/getting-started/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -37,6 +51,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
+    '/getting-started/': {
+      id: '/getting-started/'
+      path: '/getting-started'
+      fullPath: '/getting-started'
+      preLoaderRoute: typeof GettingStartedIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/wifi/': {
+      id: '/wifi/'
+      path: '/wifi'
+      fullPath: '/wifi'
+      preLoaderRoute: typeof WifiIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -44,32 +72,42 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
+  '/getting-started': typeof GettingStartedIndexRoute
+  '/wifi': typeof WifiIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
+  '/getting-started': typeof GettingStartedIndexRoute
+  '/wifi': typeof WifiIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
+  '/getting-started/': typeof GettingStartedIndexRoute
+  '/wifi/': typeof WifiIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/getting-started' | '/wifi'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/getting-started' | '/wifi'
+  id: '__root__' | '/' | '/getting-started/' | '/wifi/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
+  GettingStartedIndexRoute: typeof GettingStartedIndexRoute
+  WifiIndexRoute: typeof WifiIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
+  GettingStartedIndexRoute: GettingStartedIndexRoute,
+  WifiIndexRoute: WifiIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -82,11 +120,19 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/"
+        "/",
+        "/getting-started/",
+        "/wifi/"
       ]
     },
     "/": {
       "filePath": "index.lazy.tsx"
+    },
+    "/getting-started/": {
+      "filePath": "getting-started/index.tsx"
+    },
+    "/wifi/": {
+      "filePath": "wifi/index.tsx"
     }
   }
 }

@@ -23,7 +23,9 @@ export default function NetworkList({ data }: Props) {
               key={id}
               className={`px-2 py-3 hover:bg-black/15 rounded-md transition-colors duration-200 space-y-3 ${isSelected && "bg-black/15"}`}
               role="button"
-              onClick={() => setSelected(id)}
+              onClick={() =>
+                selected === id ? setSelected(null) : setSelected(id)
+              }
             >
               <div className="inline-flex items-center gap-2">
                 <p className="truncate max-w-96">{ssid}</p>

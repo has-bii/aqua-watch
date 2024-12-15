@@ -1,22 +1,28 @@
 import { RefreshCwIcon } from "lucide-react";
 import { useGetNetworks } from "../../hooks/use-get-networks";
 import NetworkList from "./network-list";
+import { useGetWifiConf } from "../../hooks/use-get-wifi-conf";
 
 export default function Network() {
   const { data, refetch, isRefetching, isLoading, isError, error } =
     useGetNetworks();
+  const { data: wifiData } = useGetWifiConf();
 
   return (
-    <>
-      <main className="card">
-        <div className="inline-flex gap-2 justify-between items-center w-full ">
-          <p className="text-sm text-gray-400">Please select network...</p>
+    <div className="space-y-4 w-full max-w-[32rem]">
+      <h1 className="text-3xl font-bold text-black text-center">Network</h1>
+      <p className="text-sm text-gray-400 text-center">
+        Connect your device to WiFi to enable cloud communication.
+      </p>
 
-          <button className="btn" onClick={() => refetch()}>
+      <main className="card">
+        <div className="inline-flex gap-2 justify-between items-center w-full">
+          <button className="btn ml-auto" onClick={() => refetch()}>
             <RefreshCwIcon
               className={isRefetching || isLoading ? "animate-spin" : ""}
               size={18}
             />
+            Scan
           </button>
         </div>
 
@@ -30,6 +36,12 @@ export default function Network() {
           ""
         )}
       </main>
-    </>
+
+      <div className="flex">
+        {wifiData !== undefined && (
+          <button className="btn ml-auto">Next</button>
+        )}
+      </div>
+    </div>
   );
 }
