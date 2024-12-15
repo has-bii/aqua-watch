@@ -4,13 +4,13 @@
 
 @layer components {
   .btn {
-    @apply px-3 border rounded-md bg-black text-white h-9;
+    @apply px-3 border rounded-md bg-black text-white h-9 flex w-fit items-center justify-center gap-2;
   }
   .btn-md {
-    @apply px-2.5 border rounded-md bg-black text-white h-8 text-sm;
+    @apply px-2.5 border rounded-md bg-black text-white h-8 text-sm flex w-fit items-center justify-center gap-2;
   }
   .btn-sm {
-    @apply px-2 border rounded-md bg-black text-white h-7 text-xs;
+    @apply px-2 border rounded-md bg-black text-white h-7 text-xs flex w-fit items-center justify-center gap-2;
   }
 
   .input {
