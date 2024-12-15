@@ -8,7 +8,9 @@ const useGetNetworks = () =>
     queryFn: async () => {
       try {
         const res = (await fetch(
-          import.meta.env.PROD ? "/api/scan" : "http://192.168.1.83/api/scan",
+          import.meta.env.PROD
+            ? "/api/scan"
+            : `${import.meta.env.VITE_API_URL}/scan`,
           {
             method: "GET",
           }

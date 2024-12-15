@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { TNetwork } from "../types/network";
 
 const useGetWifiConf = () =>
   useQuery({
@@ -9,14 +8,17 @@ const useGetWifiConf = () =>
       try {
         const res = (await fetch(
           import.meta.env.PROD
-            ? "/api/wifi-config"
-            : "http://192.168.1.83/api/wifi-config",
+            ? "/api/wifi-conf"
+            : `${import.meta.env.VITE_API_URL}/wifi-conf`,
           {
             method: "GET",
           }
-        ).then((res) => res.json())) as TNetwork[];
+        ).then((res) => res.json())) as {
+          message: string;
+          data: { ssid: string; password: string };
+        };
 
-        return res;
+        return res.data;
       } catch (error) {
         console.error(error);
         throw error;
