@@ -4,20 +4,35 @@
 
 @layer components {
   .btn {
-    @apply px-3 border rounded-md bg-black text-white h-9 flex w-fit items-center justify-center gap-2;
+    @apply flex h-9 w-fit items-center justify-center gap-2 rounded-lg border bg-black px-3 text-white [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0;
   }
+  .btn-lg {
+    @apply h-10 w-full;
+  }
+
   .btn-md {
-    @apply px-2.5 border rounded-md bg-black text-white h-8 text-sm flex w-fit items-center justify-center gap-2;
+    @apply flex h-8 w-fit items-center justify-center gap-2 rounded-md border bg-black px-2.5 text-sm text-white;
   }
   .btn-sm {
-    @apply px-2 border rounded-md bg-black text-white h-7 text-xs flex w-fit items-center justify-center gap-2;
+    @apply flex h-7 w-fit items-center justify-center gap-2 rounded-lg border bg-black px-2 text-xs text-white;
   }
 
   .input {
-    @apply px-3 bg-white rounded-md focus:outline-none;
+    @apply h-9 rounded-md bg-white px-3 focus:outline-none;
   }
 
   .card {
-    @apply border rounded-lg p-6 space-y-4;
+    @apply space-y-4 rounded-lg border p-6;
+  }
+
+  .form-input-wrapper {
+    @apply flex flex-col space-y-2;
+
+    .form-label {
+      @apply text-sm font-medium;
+    }
+    .form-input {
+      @apply rounded-lg border px-3 py-1.5 focus:outline-none focus:ring;
+    }
   }
 }

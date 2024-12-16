@@ -6,6 +6,9 @@ const useGetNetworks = () =>
   useQuery({
     queryKey: ["networks"],
     retry: false,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+    enabled: false,
     queryFn: async () => {
       try {
         const res = (await fetch(getApiUrl("/api/scan"), {

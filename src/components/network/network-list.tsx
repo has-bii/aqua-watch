@@ -4,13 +4,14 @@ import { LockIcon } from "lucide-react";
 import RSSI from "./rssi";
 import NetworkForm from "./network-form";
 import { useGetWifiConf } from "../../hooks/use-get-wifi-conf";
+import { TWifiStatus } from "../../hooks/use-get-wifi-status";
 
 type Props = {
   data: TNetwork[];
-  isConnected: boolean;
+  wifiStatus?: TWifiStatus;
 };
 
-export default function NetworkList({ data, isConnected }: Props) {
+export default function NetworkList({ data, wifiStatus }: Props) {
   const [selected, setSelected] = React.useState<number | null>(null);
   const { data: wifiConf } = useGetWifiConf();
 
@@ -33,7 +34,8 @@ export default function NetworkList({ data, isConnected }: Props) {
                 <RSSI rssi={rssi} />
                 {isOpen === "closed" && <LockIcon size={18} />}
 
-                {wifiConf?.ssid === ssid && isConnected ? (
+                {wifiConf?.ssid === ssid &&
+                wifiStatus?.status === "Connected" ? (
                   <span className="text-xs">Connected</span>
                 ) : (
                   ""
