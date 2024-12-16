@@ -1,5 +1,6 @@
 import { useForm } from "@tanstack/react-form";
 import { TNetwork } from "../../types/network";
+import { getApiUrl } from "../../utils/get-api-url";
 
 type Props = {
   data: TNetwork;
@@ -20,27 +21,19 @@ export default function NetworkForm({
     },
     onSubmit: async ({ value: { password, ssid } }) => {
       try {
-        const res = await fetch(
-          import.meta.env.PROD
-            ? "/save-wifi"
-            : `${import.meta.env.VITE_API_URL}/wifi-conf`,
-          {
-            method: "POST",
-            body: JSON.stringify({
-              ssid,
-              password,
-            }),
-          }
-        );
+        const res = await fetch(getApiUrl("/api/wifi-conf"), {
+          method: "POST",
+          body: JSON.stringify({
+            ssid,
+            password,
+          }),
+        });
 
         if (res.status !== 200) return;
 
-        const resConnect = await fetch(
-          import.meta.env.PROD
-            ? "/connect"
-            : `${import.meta.env.VITE_API_URL}/connect`,
-          { method: "GET" }
-        ).then((res) => res.json());
+        const resConnect = await fetch(getApiUrl("/api/connect"), {
+          method: "GET",
+        }).then((res) => res.json());
 
         console.log(resConnect);
       } catch (error) {

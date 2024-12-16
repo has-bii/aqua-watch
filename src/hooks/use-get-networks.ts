@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { TNetwork } from "../types/network";
+import { getApiUrl } from "../utils/get-api-url";
 
 const useGetNetworks = () =>
   useQuery({
@@ -7,14 +8,9 @@ const useGetNetworks = () =>
     retry: false,
     queryFn: async () => {
       try {
-        const res = (await fetch(
-          import.meta.env.PROD
-            ? "/api/scan"
-            : `${import.meta.env.VITE_API_URL}/scan`,
-          {
-            method: "GET",
-          }
-        ).then((res) => res.json())) as TNetwork[];
+        const res = (await fetch(getApiUrl("/api/scan"), {
+          method: "GET",
+        }).then((res) => res.json())) as TNetwork[];
 
         return res;
       } catch (error) {
