@@ -1,12 +1,12 @@
 import { RefreshCwIcon } from "lucide-react";
 import { useGetNetworks } from "../../hooks/use-get-networks";
 import NetworkList from "./network-list";
-import { useGetWifiConf } from "../../hooks/use-get-wifi-conf";
+import { useGetWifiStatus } from "../../hooks/use-get-wifi-status";
 
 export default function Network() {
   const { data, refetch, isRefetching, isLoading, isError, error } =
     useGetNetworks();
-  const { data: wifiData } = useGetWifiConf();
+  const { data: wifiStatus } = useGetWifiStatus();
 
   return (
     <div className="space-y-4 w-full max-w-[32rem]">
@@ -26,7 +26,11 @@ export default function Network() {
           </button>
         </div>
 
-        {data === undefined ? "" : <NetworkList data={data} />}
+        {data === undefined ? (
+          ""
+        ) : (
+          <NetworkList data={data} isConnected={wifiStatus === "Connected"} />
+        )}
 
         {isError && error !== null ? (
           <div className="w-full flex items-center justify-center p-4 border border-red-400 bg-red-50 rounded-md">
@@ -38,7 +42,7 @@ export default function Network() {
       </main>
 
       <div className="flex">
-        {wifiData !== undefined && (
+        {wifiStatus === "Connected" && (
           <button className="btn ml-auto">Next</button>
         )}
       </div>

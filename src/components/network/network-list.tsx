@@ -3,13 +3,16 @@ import { TNetwork } from "../../types/network";
 import { LockIcon } from "lucide-react";
 import RSSI from "./rssi";
 import NetworkForm from "./network-form";
+import { useGetWifiConf } from "../../hooks/use-get-wifi-conf";
 
 type Props = {
   data: TNetwork[];
+  isConnected: boolean;
 };
 
-export default function NetworkList({ data }: Props) {
+export default function NetworkList({ data, isConnected }: Props) {
   const [selected, setSelected] = React.useState<number | null>(null);
+  const { data: wifiConf } = useGetWifiConf();
 
   // onSubmit
 
@@ -21,22 +24,29 @@ export default function NetworkList({ data }: Props) {
           return (
             <li
               key={id}
-              className={`px-2 py-3 hover:bg-black/15 rounded-md transition-colors duration-200 space-y-3 ${isSelected && "bg-black/15"}`}
+              className={`px-3 py-4 hover:bg-black/15 rounded-md transition-colors duration-200 space-y-3 ${isSelected && "bg-black/15"}`}
               role="button"
-              onClick={() =>
-                selected === id ? setSelected(null) : setSelected(id)
-              }
+              onClick={() => setSelected(id)}
             >
               <div className="inline-flex items-center gap-2">
                 <p className="truncate max-w-96">{ssid}</p>
                 <RSSI rssi={rssi} />
                 {isOpen === "closed" && <LockIcon size={18} />}
+
+                {wifiConf?.ssid === ssid && isConnected ? (
+                  <span className="text-xs">Connected</span>
+                ) : (
+                  ""
+                )}
               </div>
 
               {!isSelected ? (
                 ""
               ) : (
-                <NetworkForm data={{ id, isOpen, rssi, ssid }} />
+                <NetworkForm
+                  data={{ id, isOpen, rssi, ssid }}
+                  wifiConf={wifiConf}
+                />
               )}
             </li>
           );

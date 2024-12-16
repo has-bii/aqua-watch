@@ -3,20 +3,27 @@ import { TNetwork } from "../../types/network";
 
 type Props = {
   data: TNetwork;
+  wifiConf?: {
+    ssid: string;
+    password: string;
+  };
 };
 
-export default function NetworkForm({ data: { ssid, isOpen } }: Props) {
+export default function NetworkForm({
+  data: { ssid, isOpen },
+  wifiConf,
+}: Props) {
   const form = useForm({
     defaultValues: {
       ssid,
-      password: "",
+      password: ssid === wifiConf?.ssid ? wifiConf.password : "",
     },
     onSubmit: async ({ value: { password, ssid } }) => {
       try {
         const res = await fetch(
           import.meta.env.PROD
-            ? "/api/save-wifi"
-            : "http://192.168.1.83/api/save-wifi",
+            ? "/save-wifi"
+            : `${import.meta.env.VITE_API_URL}/wifi-conf`,
           {
             method: "POST",
             body: JSON.stringify({
@@ -26,7 +33,16 @@ export default function NetworkForm({ data: { ssid, isOpen } }: Props) {
           }
         );
 
-        console.log(await res.json());
+        if (res.status !== 200) return;
+
+        const resConnect = await fetch(
+          import.meta.env.PROD
+            ? "/connect"
+            : `${import.meta.env.VITE_API_URL}/connect`,
+          { method: "GET" }
+        ).then((res) => res.json());
+
+        console.log(resConnect);
       } catch (error) {
         console.error(error);
       }
@@ -57,7 +73,7 @@ export default function NetworkForm({ data: { ssid, isOpen } }: Props) {
         )}
       />
       <button type="submit" className="btn-md ml-auto">
-        Save
+        Connect
       </button>
     </form>
   );
