@@ -1,5 +1,5 @@
 import { useGettingStartedStep } from "../getting-started/use-getting-started-step";
-import { ArrowLeft, ArrowRight, PlusIcon } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import EnvironmentList from "./environment-list";
 import { useGetSelectedEnv } from "../../hooks/use-get-selected-env";
 import EnvironmentAdd from "./environment-add";
