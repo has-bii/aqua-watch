@@ -9,28 +9,33 @@ import { TWifiStatus } from "../../hooks/use-get-wifi-status";
 type Props = {
   data: TNetwork[];
   wifiStatus?: TWifiStatus;
+  refetchWifiStatus: () => void;
 };
 
-export default function NetworkList({ data, wifiStatus }: Props) {
+export default function NetworkList({
+  data,
+  wifiStatus,
+  refetchWifiStatus,
+}: Props) {
   const [selected, setSelected] = React.useState<number | null>(null);
   const { data: wifiConf } = useGetWifiConf();
 
   // onSubmit
 
   return (
-    <ul className="space-y-1 max-h-96 overflow-y-auto overflow-x-hidden">
+    <ul className="max-h-96 space-y-1 overflow-y-auto overflow-x-hidden">
       {data.length !== 0 ? (
         data.map(({ id, isOpen, rssi, ssid }) => {
           const isSelected = selected === id;
           return (
             <li
               key={id}
-              className={`px-3 py-4 hover:bg-black/15 rounded-md transition-colors duration-200 space-y-3 ${isSelected && "bg-black/15"}`}
+              className={`space-y-3 rounded-md px-3 py-4 transition-colors duration-200 hover:bg-black/15 ${isSelected && "bg-black/15"}`}
               role="button"
               onClick={() => setSelected(id)}
             >
               <div className="inline-flex items-center gap-2">
-                <p className="truncate max-w-96">{ssid}</p>
+                <p className="max-w-96 truncate">{ssid}</p>
                 <RSSI rssi={rssi} />
                 {isOpen === "closed" && <LockIcon size={18} />}
 
@@ -48,13 +53,14 @@ export default function NetworkList({ data, wifiStatus }: Props) {
                 <NetworkForm
                   data={{ id, isOpen, rssi, ssid }}
                   wifiConf={wifiConf}
+                  refetchWifiStatus={refetchWifiStatus}
                 />
               )}
             </li>
           );
         })
       ) : (
-        <li className="w-full text-center px-4 py-8 bg-gray-50 text-gray-500 rounded-md">
+        <li className="w-full rounded-md bg-gray-50 px-4 py-8 text-center text-gray-500">
           Network not found
         </li>
       )}

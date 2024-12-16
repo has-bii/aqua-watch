@@ -7,7 +7,7 @@ import { useGettingStartedStep } from "../getting-started/use-getting-started-st
 export default function Network() {
   const { data, refetch, isRefetching, isLoading, isError, error } =
     useGetNetworks();
-  const { data: wifiStatus } = useGetWifiStatus();
+  const { data: wifiStatus, refetch: refetchWifiStatus } = useGetWifiStatus();
   const { changeState } = useGettingStartedStep();
 
   return (
@@ -44,7 +44,11 @@ export default function Network() {
         {data === undefined ? (
           ""
         ) : (
-          <NetworkList data={data} wifiStatus={wifiStatus} />
+          <NetworkList
+            data={data}
+            wifiStatus={wifiStatus}
+            refetchWifiStatus={refetchWifiStatus}
+          />
         )}
 
         {isError && error !== null ? (

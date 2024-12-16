@@ -8,11 +8,13 @@ type Props = {
     ssid: string;
     password: string;
   };
+  refetchWifiStatus: () => void;
 };
 
 export default function NetworkForm({
   data: { ssid, isOpen },
   wifiConf,
+  refetchWifiStatus,
 }: Props) {
   const form = useForm({
     defaultValues: {
@@ -31,11 +33,11 @@ export default function NetworkForm({
 
         if (res.status !== 200) return;
 
-        const resConnect = await fetch(getApiUrl("/api/connect"), {
+        await fetch(getApiUrl("/api/connect"), {
           method: "GET",
         }).then((res) => res.json());
 
-        console.log(resConnect);
+        setTimeout(() => refetchWifiStatus(), 5000);
       } catch (error) {
         console.error(error);
       }
