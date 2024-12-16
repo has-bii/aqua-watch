@@ -25,12 +25,12 @@ export default function WifiStatus() {
   if (wifiStatus !== undefined)
     return (
       <div
-        className="w-fit relative"
+        className="relative w-fit"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
         <div
-          className="flex gap-2 items-center"
+          className="flex items-center gap-2"
           role="button"
           onClick={() => refetch()}
         >
@@ -39,17 +39,17 @@ export default function WifiStatus() {
           ) : (
             <WifiOffIcon size={20} />
           )}
-          <p className="text-sm hidden lg:block">{wifiStatus.status}</p>
+          <p className="hidden text-sm lg:block">{wifiStatus.status}</p>
         </div>
 
         {show && (
-          <div className="absolute top-full w-fit px-6 py-4 border rounded-md bg-white right-0 text-right">
-            <h1 className="font-medium text-sm whitespace-nowrap mb-2">
+          <div className="absolute right-0 top-full w-fit rounded-md border bg-white px-6 py-4 text-right">
+            <h1 className="mb-2 whitespace-nowrap text-sm font-medium">
               Wifi Configuration
             </h1>
             <div className="text-sm text-gray-400">
               <p className="text-sm">{wifiStatus.data?.ssid}</p>
-              <p className="text-sm">{wifiStatus.data?.password}</p>
+              <p className="text-sm">{wifiStatus.data?.ip}</p>
             </div>
           </div>
         )}

@@ -3,7 +3,7 @@ import { getApiUrl } from "../utils/get-api-url";
 
 export type TWifiStatus = {
   status: string;
-  data: { ssid: string; password: string };
+  data: { ssid: string; password: string; ip: string };
 };
 
 const useGetWifiStatus = () =>
