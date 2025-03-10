@@ -18,7 +18,9 @@ export default function Environment() {
       </p>
 
       <div className="inline-flex w-full items-center justify-end gap-2">
-        <button className="btn">Refresh</button>
+        <button className="btn" onClick={() => refetch()}>
+          Refresh
+        </button>
         <EnvironmentAdd />
       </div>
 

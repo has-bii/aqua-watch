@@ -23,19 +23,14 @@ export default function EnvironmentAdd() {
   const { data: user } = useGetUser();
 
   const { Field, handleSubmit, state, reset } = useForm({
-    defaultValues: {
-      name: "",
-      env_type: "aquarium",
-    },
-    validators: {
-      onChange: NewEnvSchema,
-    },
+    defaultValues: { name: "", env_type: "aquarium" },
+    validators: { onChange: NewEnvSchema },
     onSubmit: async ({ value: { env_type, name } }) => {
       try {
         if (!user) return;
 
         const { error } = await supabase
-          .from("environment")
+          .from("aquarium")
           .insert({ name, user_id: user.id, env_type: env_type as EnvType });
 
         if (error) {

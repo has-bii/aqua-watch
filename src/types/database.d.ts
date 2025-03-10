@@ -9,58 +9,82 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      dataset: {
+      aquarium: {
         Row: {
           created_at: string
-          env_id: string
-          id: number
-          temp: number
+          desc: string | null
+          enable_monitoring: boolean
+          env_type: Database["public"]["Enums"]["ENV_TYPE"]
+          id: string
+          interval: number
+          name: string
+          temp_max: number | null
+          temp_min: number | null
+          user_id: string
         }
         Insert: {
           created_at?: string
-          env_id: string
-          id?: number
-          temp: number
+          desc?: string | null
+          enable_monitoring?: boolean
+          env_type?: Database["public"]["Enums"]["ENV_TYPE"]
+          id?: string
+          interval?: number
+          name: string
+          temp_max?: number | null
+          temp_min?: number | null
+          user_id?: string
         }
         Update: {
           created_at?: string
+          desc?: string | null
+          enable_monitoring?: boolean
+          env_type?: Database["public"]["Enums"]["ENV_TYPE"]
+          id?: string
+          interval?: number
+          name?: string
+          temp_max?: number | null
+          temp_min?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      measurements: {
+        Row: {
+          created_at: string
+          dissolved_oxygen: number | null
+          env_id: string
+          id: number
+          ph: number | null
+          temp: number | null
+          turbidity: number | null
+        }
+        Insert: {
+          created_at?: string
+          dissolved_oxygen?: number | null
+          env_id: string
+          id?: number
+          ph?: number | null
+          temp?: number | null
+          turbidity?: number | null
+        }
+        Update: {
+          created_at?: string
+          dissolved_oxygen?: number | null
           env_id?: string
           id?: number
-          temp?: number
+          ph?: number | null
+          temp?: number | null
+          turbidity?: number | null
         }
         Relationships: [
           {
             foreignKeyName: "dataset_env_id_fkey"
             columns: ["env_id"]
             isOneToOne: false
-            referencedRelation: "environment"
+            referencedRelation: "aquarium"
             referencedColumns: ["id"]
           },
         ]
-      }
-      environment: {
-        Row: {
-          created_at: string
-          env_type: Database["public"]["Enums"]["ENV_TYPE"]
-          id: string
-          name: string
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          env_type?: Database["public"]["Enums"]["ENV_TYPE"]
-          id?: string
-          name: string
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          env_type?: Database["public"]["Enums"]["ENV_TYPE"]
-          id?: string
-          name?: string
-          user_id?: string
-        }
-        Relationships: []
       }
     }
     Views: {
@@ -71,6 +95,9 @@ export type Database = {
     }
     Enums: {
       ENV_TYPE: "aquarium" | "pond"
+      notify_for: "nothing" | "anomalies"
+      temp_method: "auto" | "manual"
+      Testing: "testing_1" | "testing_2"
     }
     CompositeTypes: {
       [_ in never]: never

@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { useGetEnv } from "../../hooks/use-get-env";
 import { SelectedEnvironment } from "../../hooks/use-get-selected-env";
 import { getApiUrl } from "../../utils/get-api-url";
+import { Database } from "../../types/database";
 
 type Props = {
   selectedEnv?: SelectedEnvironment;
@@ -15,11 +16,11 @@ export default function EnvironmentList({
   const { data, isLoading, error, refetch } = useGetEnv();
 
   const handleSelectAquarium = useCallback(
-    async ({ id, name }: { id: string; name: string }) => {
+    async (data: Database["public"]["Tables"]["aquarium"]["Row"]) => {
       try {
         const res = await fetch(getApiUrl("/api/environment"), {
           method: "POST",
-          body: JSON.stringify({ id, name }),
+          body: JSON.stringify({ ...data }),
         });
 
         const body = (await res.json()) as { message: string };
@@ -49,33 +50,39 @@ export default function EnvironmentList({
   if (data)
     return (
       <ul className="space-y-2">
-        {data.map((env) => (
-          <li
-            key={env.id}
-            className="max-h-96 space-y-3 overflow-y-auto rounded-lg border p-4"
-          >
-            <div className="inline-flex w-full items-center justify-between gap-3">
-              <p className="font-medium">{env.name}</p>
-              {selectedEnv?.id !== env.id ? (
-                <button
-                  className="btn-md rounded-full px-3"
-                  onClick={() =>
-                    handleSelectAquarium({ id: env.id, name: env.name })
-                  }
-                >
-                  Choose
-                </button>
-              ) : (
-                <span className="text-sm text-gray-400">Selected</span>
-              )}
-            </div>
-            <div className="inline-flex w-full items-center justify-between">
-              <span className="w-fit rounded-full bg-black px-3 py-1 text-sm capitalize text-white">
-                {env.env_type}
-              </span>
-            </div>
+        {data.length === 0 ? (
+          <li className="flex max-h-96 space-y-3 overflow-y-auto rounded-lg border p-4">
+            <p className="m-auto h-fit w-fit text-center text-gray-500">
+              You do not have any aquarium
+            </p>
           </li>
-        ))}
+        ) : (
+          data.map((env) => (
+            <li
+              key={env.id}
+              className="max-h-96 space-y-3 overflow-y-auto rounded-lg border p-4"
+            >
+              <div className="inline-flex w-full items-center justify-between gap-3">
+                <p className="font-medium">{env.name}</p>
+                {selectedEnv?.id !== env.id ? (
+                  <button
+                    className="btn-md rounded-full px-3"
+                    onClick={() => handleSelectAquarium(env)}
+                  >
+                    Choose
+                  </button>
+                ) : (
+                  <span className="text-sm text-gray-400">Selected</span>
+                )}
+              </div>
+              <div className="inline-flex w-full items-center justify-between">
+                <span className="w-fit rounded-full bg-black px-3 py-1 text-sm capitalize text-white">
+                  {env.env_type}
+                </span>
+              </div>
+            </li>
+          ))
+        )}
       </ul>
     );
 

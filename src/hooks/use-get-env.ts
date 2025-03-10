@@ -6,7 +6,7 @@ export const useGetEnv = () =>
     queryKey: ["environments"],
     queryFn: async () => {
       try {
-        const { data, error } = await supabase.from("environment").select("*");
+        const { data, error } = await supabase.from("aquarium").select("*");
 
         if (error) throw new Error(error.message);
 
